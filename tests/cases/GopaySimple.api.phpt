@@ -45,6 +45,7 @@ final class ApiGopay extends GopaySimple
     public function doFail()
     {
         $this->args = ['type' => 'fail'];
+        $this->token = (object)['access_token' => 'foobar'];
         return $this->call('GET', 'invalid');
     }
 
@@ -93,5 +94,5 @@ test(function () {
     Assert::throws(function () {
         $gopay = new ApiGopay('foo', 'bar');
         $gopay->doFail();
-    }, GopayException::class, "Authorization failed (" . PHP_SERVER . "/server.php?type=fail)%a%");
+    }, GopayException::class, "Request failed (GET+" . PHP_SERVER . "/server.php?type=fail%a%)%a%");
 });
