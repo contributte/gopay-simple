@@ -1,0 +1,31 @@
+{
+    "name": "markette/gopay-simple",
+    "description": "GoPay Inline Simple Payment Gateway",
+    "keywords": ["eshop", "payment", "gopay", "api", "inline", "simple"],
+    "homepage": "https://github.com/Markette/GopaySimple",
+    "license": "New BSD",
+    "authors": [
+        {
+            "name": "Milan Felix Šulc",
+            "email": "sulcmil@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "nette/tester": "~1.6.0",
+        "mockery/mockery": "~0.9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Markette\\GopaySimple\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
