@@ -31,9 +31,6 @@ class GopaySimple
     ];
 
     /** @var string */
-    private $goId;
-
-    /** @var string */
     private $clientId;
 
     /** @var string */
@@ -43,7 +40,7 @@ class GopaySimple
     private $mode = self::PROD;
 
     /** @var stdClass */
-    private $token;
+    protected $token;
 
     /**
      * @param string $clientId
@@ -113,13 +110,14 @@ class GopaySimple
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         $result = curl_exec($ch);
-        $error = curl_errno($ch);
+        $errno = curl_errno($ch);
+        $error = curl_error($ch);
         $response = @json_decode($result);
         curl_close($ch);
 
         if (!$response) {
             // cURL errors
-            throw new GopayException("Authorization failed ($url)", $error, NULL, $args);
+            throw new GopayException("Authorization failed ($url) [$error]", $errno, NULL, $args);
         }
 
         if (isset($response->errors)) {
@@ -172,13 +170,14 @@ class GopaySimple
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $result = curl_exec($ch);
-        $error = curl_errno($ch);
+        $errno = curl_errno($ch);
+        $error = curl_error($ch);
         $response = @json_decode($result);
         curl_close($ch);
 
         if (!$response) {
             // cURL errors
-            throw new GopayException("Request failed ($method+$url)", $error, NULL, $args);
+            throw new GopayException("Request failed ($method+$url) [$error]", $errno, NULL, $args);
         } else if (isset($response->errors)) {
             // GoPay errors
             $error = $response->errors[0];

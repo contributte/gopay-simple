@@ -48,7 +48,6 @@ class GopayService
      */
     public function status($paymentId)
     {
-        // Validatepayment
         try {
             $response = $this->gopay->call('GET', 'payments/payment/', $paymentId);
         } catch (GopayException $e) {

@@ -1,6 +1,5 @@
 language: php
 php:
-    - 5.5
     - 5.6
     - 7.0
     - hhvm
@@ -15,13 +14,17 @@ matrix:
 before_script:
     - composer install --no-interaction --prefer-source
 
+    - travis_retry sh tests/buildin/run.sh `pwd`/tests/buildin > server.log 2>&1 &
+
     - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then cat ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini >> ./tests/php-unix.ini; fi
     - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then NTESTER_FLAGS="--coverage ./coverage.xml --coverage-src ./src"; else TESTER_FLAGS=""; fi
 
 script:
-    - vendor/bin/tester tests -s -p php -c tests/php-unix.ini -i
-    - vendor/bin/tester tests -s -p php -c tests/php-unix.ini $NTESTER_FLAGS
+    - travis_retry vendor/bin/tester tests -s -p php -c tests/php-unix.ini -i
+    - travis_retry vendor/bin/tester tests -s -p php -c tests/php-unix.ini $NTESTER_FLAGS
 
 after_script:
     - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then composer require satooshi/php-coveralls; fi
-    - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then php vendor/bin/coveralls -c tests/.coveralls.yml -v; fi 
+    - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then php vendor/bin/coveralls -c tests/.coveralls.yml -v; fi
+
+    - cat server.log
