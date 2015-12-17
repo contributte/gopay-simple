@@ -4,6 +4,7 @@
  * Test: Markette/GopaySimple/GopaySimple (API)
  */
 
+use Markette\GopaySimple\GopayException;
 use Markette\GopaySimple\GopaySimple;
 use Tester\Assert;
 
@@ -34,6 +35,19 @@ final class ApiGopay extends GopaySimple
         return $this->call($method, $endpoint, $args);
     }
 
+    public function doError()
+    {
+        $this->args = ['type' => 'error'];
+        $this->token = (object)['access_token' => 'foobar'];
+        return $this->call('GET', 'invalid');
+    }
+
+    public function doFail()
+    {
+        $this->args = ['type' => 'fail'];
+        return $this->call('GET', 'invalid');
+    }
+
     protected function getEndpoint($type = NULL)
     {
         return PHP_SERVER . '/server.php?' . http_build_query($this->args);
@@ -59,4 +73,25 @@ test(function () {
     $response = $gopay->doApiToken('GET', 'payments/payment/12345');
 
     Assert::equal('payments/payment/12345', $response->uri);
+});
+
+test(function () {
+    Assert::throws(function () {
+        $gopay = new ApiGopay('foo', 'bar');
+        $gopay->doApiToken('FOOBAR', 'invalid');
+    }, GopayException::class);
+});
+
+test(function () {
+    Assert::throws(function () {
+        $gopay = new ApiGopay('foo', 'bar');
+        $gopay->doError();
+    }, GopayException::class);
+});
+
+test(function () {
+    Assert::throws(function () {
+        $gopay = new ApiGopay('foo', 'bar');
+        $gopay->doFail();
+    }, GopayException::class, "Authorization failed (" . PHP_SERVER . "/server.php?type=fail)%a%");
 });

@@ -15,6 +15,9 @@ switch ($type) {
     case 'token':
         echo @json_encode(['access_token' => 'foobar-token']);
         break;
+    case 'fail':
+        exit(0);
+        break;
     default:
         echo @json_encode(['errors' => [0 => ['error_code' => 1, 'scope' => 'S', 'field' => 'S', 'message' => 'failed mocking']]]);
 }

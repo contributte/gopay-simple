@@ -165,7 +165,7 @@ class GopaySimple
                 break;
 
             default:
-                throw new GopayException("Unsupported HTTP method ($method)", NULL, $args);
+                throw new GopayException("Unsupported HTTP method ($method)", 0, NULL, $args);
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);

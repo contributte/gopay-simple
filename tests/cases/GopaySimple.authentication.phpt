@@ -4,6 +4,7 @@
  * Test: Markette/GopaySimple/GopaySimple (AUTHENTICATION)
  */
 
+use Markette\GopaySimple\GopayException;
 use Markette\GopaySimple\GopaySimple;
 use Tester\Assert;
 
@@ -18,6 +19,18 @@ final class AuthGopay extends GopaySimple
     public function doAuth()
     {
         $this->args = ['type' => 'server'];
+        return $this->authenticate(['scope' => 'test']);
+    }
+
+    public function doError()
+    {
+        $this->args = ['type' => 'error'];
+        return $this->authenticate(['scope' => 'test']);
+    }
+
+    public function doFail()
+    {
+        $this->args = ['type' => 'fail'];
         return $this->authenticate(['scope' => 'test']);
     }
 
@@ -40,4 +53,18 @@ test(function () {
 
     Assert::equal('foo', $response->PHP_AUTH_USER);
     Assert::equal('bar', $response->PHP_AUTH_PW);
+});
+
+test(function () {
+    Assert::throws(function () {
+        $gopay = new AuthGopay('foo', 'bar');
+        $gopay->doError();
+    }, GopayException::class);
+});
+
+test(function () {
+    Assert::throws(function () {
+        $gopay = new AuthGopay('foo', 'bar');
+        $gopay->doFail();
+    }, GopayException::class, "Authorization failed (" . PHP_SERVER . "/server.php?type=fail)%a%");
 });
