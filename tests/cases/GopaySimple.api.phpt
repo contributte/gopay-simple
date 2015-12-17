@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Markette/GopaySimple/GopaySimple
+ * Test: Markette/GopaySimple/GopaySimple (API)
  */
 
 use Markette\GopaySimple\GopaySimple;
@@ -9,7 +9,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-final class LocalGopay extends GopaySimple
+final class ApiGopay extends GopaySimple
 {
 
     /** @var array */
@@ -17,11 +17,17 @@ final class LocalGopay extends GopaySimple
 
     public function doAuth()
     {
-        $this->args = ['type' => 'server'];
+        $this->args = ['type' => 'token'];
         return $this->authenticate(['scope' => 'test']);
     }
 
     public function doApi($method, $endpoint, array $args = [])
+    {
+        $this->args = ['type' => strtolower($method)];
+        return $this->call($method, $endpoint, $args);
+    }
+
+    public function doApiToken($method, $endpoint, array $args = [])
     {
         $this->args = ['type' => strtolower($method)];
         $this->token = (object)['access_token' => 'foobar'];
@@ -30,7 +36,7 @@ final class LocalGopay extends GopaySimple
 
     protected function getEndpoint($type = NULL)
     {
-        return 'http://localhost:8080/server.php?' . http_build_query($this->args);
+        return PHP_SERVER . '/server.php?' . http_build_query($this->args);
     }
 
     protected function getEndpointUrl($uri = NULL)
@@ -42,23 +48,15 @@ final class LocalGopay extends GopaySimple
 }
 
 test(function () {
-    $gopay = new LocalGopay('foo', 'bar');
-    $response = $gopay->doAuth();
-
-    Assert::equal('foo', $response->PHP_AUTH_USER);
-    Assert::equal('bar', $response->PHP_AUTH_PW);
-});
-
-test(function () {
-    $gopay = new LocalGopay('foo', 'bar');
-    $response = $gopay->doApi('POST', 'payments/payment', ['my' => 'data']);
+    $gopay = new ApiGopay('foo', 'bar');
+    $response = $gopay->doApiToken('POST', 'payments/payment', ['my' => 'data']);
 
     Assert::equal('data', $response->my);
 });
 
 test(function () {
-    $gopay = new LocalGopay('foo', 'bar');
-    $response = $gopay->doApi('GET', 'payments/payment/12345');
+    $gopay = new ApiGopay('foo', 'bar');
+    $response = $gopay->doApiToken('GET', 'payments/payment/12345');
 
     Assert::equal('payments/payment/12345', $response->uri);
 });

@@ -10,6 +10,9 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
     exit(1);
 }
 
+// Define server
+define('PHP_SERVER', 'localhost:8080');
+
 // Configure environment
 Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
