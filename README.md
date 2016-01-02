@@ -30,6 +30,8 @@ This super simple class provides a few methods, 2 public and 4 protected, for ea
 
 - `call(string $method, string $endpoint, array $args = [])` : `stdClass`
 - `setMode(int $gopay::DEV/PROD)` : `void`
+- `$useragent` : `PHP+Markette/GopaySimple/{VERSION}`
+- `$options` : `[]` (cURL options)
 
 ### Protected
 
@@ -52,6 +54,8 @@ $gopay->setMode($gopay::DEV);
 ### Authorization (Oauth)
 
 Auth process is very simple and automatic. So, you do not have to do anything.
+
+If you really need override authorization, you have to extend `GopaySimple` and call `authenticate($args)` directly.
 
 ### Payments
 
@@ -104,3 +108,8 @@ $response = $gopay->call('GET', 'payments/payment/{id}');
 You should inject `GopaySimple` into your service layer. And configure `$args` before creating payment for **target**.
 
 Example of [GopayService](https://github.com/Markette/GopaySimple/blob/master/examples/GopayService.php).
+
+## Testing
+
+1) Start build-in server at `tests/buildin/run.sh`
+2) Run tester at `tests/tester`
