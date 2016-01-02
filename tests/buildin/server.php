@@ -18,6 +18,7 @@ switch ($type) {
     case 'fail':
         exit(0);
         break;
+    case 'error':
     default:
         echo @json_encode(['errors' => [0 => ['error_code' => 1, 'scope' => 'S', 'field' => 'S', 'message' => 'failed mocking']]]);
 }

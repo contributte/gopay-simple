@@ -30,6 +30,15 @@ class GopaySimple
         ]
     ];
 
+    /** @var array */
+    public $options = [];
+
+    /** @var string */
+    public $useragent = 'PHP+Markette/GopaySimple/1.0';
+
+    /** @var stdClass */
+    protected $token;
+
     /** @var string */
     private $clientId;
 
@@ -38,9 +47,6 @@ class GopaySimple
 
     /** @var int */
     private $mode = self::PROD;
-
-    /** @var stdClass */
-    protected $token;
 
     /**
      * @param string $clientId
@@ -91,28 +97,37 @@ class GopaySimple
      */
     protected function authenticate($args)
     {
-        $data = [
-            'grant_type' => 'client_credentials',
-            'scope' => $args['scope'],
-        ];
-
         $url = $this->getEndpoint(self::ENDPOINT_OAUTH);
+
+        // Init cURL resource
         $ch = curl_init();
+
+        // Configure
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/x-www-form-urlencoded',
             'Accept: application/json'
         ]);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Markette/GopaySimple/1.0');
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->useragent);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_USERPWD, $this->clientId . ':' . $this->clientSecret);
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+            'grant_type' => 'client_credentials',
+            'scope' => $args['scope'],
+        ]));
+
+        // Override options
+        if ($this->options) curl_setopt_array($ch, $this->options);
+
+        // Process
         $result = curl_exec($ch);
         $errno = curl_errno($ch);
         $error = curl_error($ch);
         $response = @json_decode($result);
+
+        // Close resource
         curl_close($ch);
 
         if (!$response) {
@@ -140,17 +155,22 @@ class GopaySimple
     {
         if (!$this->token) throw new GopayException('Unknown token');
 
+        $url = $this->getEndpointUrl($endpoint);
+
+        // Init cURL resource
+        $ch = curl_init();
+
+        // Configure
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->useragent);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+        // Default headers
         $headers = [
             'Authorization:Bearer ' . $this->token->access_token,
             'Accept: application/json'
         ];
-
-        $url = $this->getEndpointUrl($endpoint);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Markette/GopaySimple/1.0');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
         switch ($method) {
             case 'GET':
@@ -169,10 +189,17 @@ class GopaySimple
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        // Override options
+        if ($this->options) curl_setopt_array($ch, $this->options);
+        
+        // Process
         $result = curl_exec($ch);
         $errno = curl_errno($ch);
         $error = curl_error($ch);
         $response = @json_decode($result);
+
+        // Close resource
         curl_close($ch);
 
         if (!$response) {

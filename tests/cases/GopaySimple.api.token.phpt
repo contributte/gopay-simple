@@ -46,6 +46,9 @@ final class ApiTokenGopay extends GopaySimple
 
 }
 
+/**
+ * Handle authentication and request
+ */
 test(function () {
     $gopay = new ApiTokenGopay('foo', 'bar');
     $response = $gopay->doApi('POST', 'payments/payment', ['my' => 'data']);

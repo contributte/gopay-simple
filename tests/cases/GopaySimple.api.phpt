@@ -62,6 +62,9 @@ final class ApiGopay extends GopaySimple
 
 }
 
+/**
+ * Compare passed data
+ */
 test(function () {
     $gopay = new ApiGopay('foo', 'bar');
     $response = $gopay->doApiToken('POST', 'payments/payment', ['my' => 'data']);
@@ -69,6 +72,9 @@ test(function () {
     Assert::equal('data', $response->my);
 });
 
+/**
+ * Compare passed URL
+ */
 test(function () {
     $gopay = new ApiGopay('foo', 'bar');
     $response = $gopay->doApiToken('GET', 'payments/payment/12345');
@@ -76,6 +82,9 @@ test(function () {
     Assert::equal('payments/payment/12345', $response->uri);
 });
 
+/**
+ * Unsupported HTTP method
+ */
 test(function () {
     Assert::throws(function () {
         $gopay = new ApiGopay('foo', 'bar');
@@ -83,6 +92,9 @@ test(function () {
     }, GopayException::class);
 });
 
+/**
+ * Server returns error
+ */
 test(function () {
     Assert::throws(function () {
         $gopay = new ApiGopay('foo', 'bar');
@@ -90,6 +102,9 @@ test(function () {
     }, GopayException::class);
 });
 
+/**
+ * Server failed
+ */
 test(function () {
     Assert::throws(function () {
         $gopay = new ApiGopay('foo', 'bar');

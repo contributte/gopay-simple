@@ -47,6 +47,9 @@ final class AuthGopay extends GopaySimple
 
 }
 
+/**
+ * Compare credentials
+ */
 test(function () {
     $gopay = new AuthGopay('foo', 'bar');
     $response = $gopay->doAuth();
@@ -55,6 +58,9 @@ test(function () {
     Assert::equal('bar', $response->PHP_AUTH_PW);
 });
 
+/**
+ * Handle error
+ */
 test(function () {
     Assert::throws(function () {
         $gopay = new AuthGopay('foo', 'bar');
@@ -62,6 +68,9 @@ test(function () {
     }, GopayException::class);
 });
 
+/**
+ * Handle fail
+ */
 test(function () {
     Assert::throws(function () {
         $gopay = new AuthGopay('foo', 'bar');

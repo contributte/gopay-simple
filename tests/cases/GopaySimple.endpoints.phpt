@@ -22,6 +22,9 @@ final class EndpointGopay extends GopaySimple
     }
 }
 
+/**
+ * Compare endpoints
+ */
 test(function () {
     $gopay = new EndpointGopay('foo', 'bar');
 
