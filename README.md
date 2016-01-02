@@ -111,5 +111,5 @@ Example of [GopayService](https://github.com/Markette/GopaySimple/blob/master/ex
 
 ## Testing
 
-1) Start build-in server at `tests/buildin/run.sh`
-2) Run tester at `tests/tester`
+1. Start build-in server at `tests/buildin/run.sh`
+2. Run tester at `tests/tester`
