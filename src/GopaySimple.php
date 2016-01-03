@@ -112,7 +112,7 @@ class GopaySimple
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_USERPWD, $this->clientId . ':' . $this->clientSecret);
         curl_setopt($ch, CURLOPT_POST, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
             'grant_type' => 'client_credentials',
             'scope' => $args['scope'],
@@ -164,7 +164,7 @@ class GopaySimple
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->useragent);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 
         // Default headers
         $headers = [
