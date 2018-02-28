@@ -3,7 +3,7 @@
     "description": "GoPay Inline Simple Payment Gateway",
     "keywords": ["eshop", "payment", "gopay", "api", "inline", "simple"],
     "homepage": "https://github.com/Markette/GopaySimple",
-    "license": "New BSD",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Milan Felix Šulc",
