@@ -16,8 +16,8 @@ One class rule-them-all, best way is `$gopay->call()`.
 
 ## Install
 
-```sh
-$ composer require markette/gopay-simple
+```bash
+composer require markette/gopay-simple
 ```
 
 ## Requirements
