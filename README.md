@@ -16,8 +16,8 @@ One class rule-them-all, best way is `$gopay->call()`.
 
 ## Install
 
-```sh
-$ composer require markette/gopay-simple
+```bash
+composer require markette/gopay-simple
 ```
 
 ## Requirements
@@ -69,37 +69,37 @@ If you really need override authorization, you have to extend `GopaySimple` and 
 
 ```php
 $response = $gopay->call('POST', 'payments/payment', [
-    'payer' => [
-        'default_payment_instrument' => 'BANK_ACCOUNT',
-        'allowed_payment_instruments' => ['BANK_ACCOUNT'],
-        'default_swift' => 'FIOBCZPP',
-        'allowed_swifts' => ['FIOBCZPP', 'BREXCZPP'],
-        'contact' => [
-            'first_name' => 'Zbynek',
-            'last_name' => 'Zak',
-            'email' => 'zbynek.zak@gopay.cz',
-            'phone_number' => '+420777456123',
-            'city' => 'C.Budejovice',
-            'street' => 'Plana 67',
-            'postal_code' => '373 01',
-            'country_code' => 'CZE',
-        ],
-    ],
-    'target': ['type' => 'ACCOUNT', 'goid' => '_YOUR_GO_ID_',
-    'amount' => 150,
-    'currency' => 'CZK',
-    'order_number' => '001',
-    'order_description' => 'pojisteni01',
-    'items' => [
-        ['name' => 'item01', 'amount' => 50],
-        ['name' => 'item02', 'amount' => 100],
-    ],
-    'additional_params' => [
-        array('name' => 'invoicenumber', 'value' => '20160001')
-    ],
-    'return_url' => 'http://www.your-url.tld/return',
-    'notify_url' => 'http://www.your-url.tld/notify',
-    'lang' => 'cs',
+	'payer' => [
+		'default_payment_instrument' => 'BANK_ACCOUNT',
+		'allowed_payment_instruments' => ['BANK_ACCOUNT'],
+		'default_swift' => 'FIOBCZPP',
+		'allowed_swifts' => ['FIOBCZPP', 'BREXCZPP'],
+		'contact' => [
+			'first_name' => 'Zbynek',
+			'last_name' => 'Zak',
+			'email' => 'zbynek.zak@gopay.cz',
+			'phone_number' => '+420777456123',
+			'city' => 'C.Budejovice',
+			'street' => 'Plana 67',
+			'postal_code' => '373 01',
+			'country_code' => 'CZE',
+		],
+	],
+	'target': ['type' => 'ACCOUNT', 'goid' => '_YOUR_GO_ID_',
+	'amount' => 150,
+	'currency' => 'CZK',
+	'order_number' => '001',
+	'order_description' => 'pojisteni01',
+	'items' => [
+		['name' => 'item01', 'amount' => 50],
+		['name' => 'item02', 'amount' => 100],
+	],
+	'additional_params' => [
+		array('name' => 'invoicenumber', 'value' => '20160001')
+	],
+	'return_url' => 'http://www.your-url.tld/return',
+	'notify_url' => 'http://www.your-url.tld/notify',
+	'lang' => 'cs',
 ]);
 ```
 
