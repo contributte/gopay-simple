@@ -15,7 +15,7 @@
 | :warning: | This project is no longer being maintained. Please use [contributte/gopay-inline](https://github.com/contributte/gopay-inline).
 |---|---|
 
-| Composer | [`minetro/forms`](https://packagist.org/packages/markette/gopay-simple) |
+| Composer | [`markette/gopay-simple`](https://packagist.org/packages/markette/gopay-simple) |
 |---| --- |
 | Version | ![](https://badgen.net/packagist/v/markette/gopay-simple) |
 | PHP | ![](https://badgen.net/packagist/php/markette/gopay-simple) |
