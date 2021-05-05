@@ -1,26 +1,39 @@
-# Markette :: GopaySimple
+![](https://heatbadger.now.sh/github/readme/contributte/gopay-simple/?deprecated=1)
 
-[![Build Status](https://img.shields.io/travis/Markette/GopaySimple.svg?style=flat-square)](https://travis-ci.org/Markette/GopaySimple)
-[![Code coverage](https://img.shields.io/coveralls/Markette/GopaySimple.svg?style=flat-square)](https://coveralls.io/r/Markette/GopaySimple)
-[![Downloads latests](https://img.shields.io/packagist/dt/markette/gopay-simple.svg?style=flat-square)](https://packagist.org/packages/markette/gopay-simple)
-[![Latest stable](https://img.shields.io/packagist/v/markette/gopay-simple.svg?style=flat-square)](https://packagist.org/packages/markette/gopay-simple)
-[![HHVM Status](https://img.shields.io/hhvm/markette/gopay-simple.svg?style=flat-square)](http://hhvm.h4cc.de/package/markette/gopay-simple)
+<p align=center>
+    <a href="https://bit.ly/ctteg"><img src="https://badgen.net/badge/support/gitter/cyan"></a>
+    <a href="https://bit.ly/cttfo"><img src="https://badgen.net/badge/support/forum/yellow"></a>
+    <a href="https://contributte.org/partners.html"><img src="https://badgen.net/badge/sponsor/donations/F96854"></a>
+</p>
 
-## Discussion
+<p align=center>
+    Website 🚀 <a href="https://contributte.org">contributte.org</a> | Contact 👨🏻‍💻 <a href="https://f3l1x.io">f3l1x.io</a> | Twitter 🐦 <a href="https://twitter.com/contributte">@contributte</a>
+</p>
 
-[![Join the chat at https://gitter.im/Markette/Gopay](https://img.shields.io/gitter/room/Markette/Gopay.svg?style=flat-square)](https://gitter.im/Markette/Gopay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Disclaimer
 
-## Goal
+| :warning: | This project is no longer being maintained. Please use [contributte/gopay-inline](https://github.com/contributte/gopay-inline).
+|---|---|
+
+| Composer | [`markette/gopay-simple`](https://packagist.org/packages/markette/gopay-simple) |
+|---| --- |
+| Version | ![](https://badgen.net/packagist/v/markette/gopay-simple) |
+| PHP | ![](https://badgen.net/packagist/php/markette/gopay-simple) |
+| License | ![](https://badgen.net/github/license/markette/gopay-simple) |
+
+## Documentation
+
+### Goal
 
 One class rule-them-all, best way is `$gopay->call()`.
 
-## Install
+### Install
 
 ```bash
 composer require markette/gopay-simple
 ```
 
-## Requirements
+### Requirements
 
 You need **GoID**, **ClientID** and **ClientSecret**.
 
@@ -28,25 +41,25 @@ You need **GoID**, **ClientID** and **ClientSecret**.
 * Offical resources in EN ([https://doc.gopay.com/en/](https://doc.gopay.com/en/))
 * Offical resources in CZ ([https://doc.gopay.com/cs/](https://doc.gopay.com/cs/))
 
-## Usage
+### Usage
 
 This super simple class provides a few methods, 2 public and 4 protected, for easy extending / prototyping.
 
-### Public
+#### Public
 
 - `call(string $method, string $endpoint, array $args = [])` : `stdClass`
 - `setMode(int $gopay::DEV/PROD)` : `void`
 - `$useragent` : `PHP+Markette/GopaySimple/{VERSION}`
 - `$options` : `[]` (cURL options)
 
-### Protected
+#### Protected
 
 - `authenticate(array $args)` : `stdClass` (token)
 - `makeRequest(string $method, string $endpoint, array $args = [])` : `string`
 - `getEndpoint(string $type)` : `string`
 - `getEndpointUrl(string $uri)` : `string`
 
-### Common part
+#### Common part
 
 ```php
 use Markette\GopaySimple\GopaySimple;
@@ -57,15 +70,15 @@ $gopay = new GopaySimple($clientId, $clientSecret);
 $gopay->setMode($gopay::DEV);
 ```
 
-### Authorization (Oauth)
+#### Authorization (Oauth)
 
 Auth process is very simple and automatic. So, you do not have to do anything.
 
 If you really need override authorization, you have to extend `GopaySimple` and call `authenticate($args)` directly.
 
-### Payments
+#### Payments
 
-#### `POST+payments/payment`
+##### `POST+payments/payment`
 
 ```php
 $response = $gopay->call('POST', 'payments/payment', [
@@ -103,19 +116,33 @@ $response = $gopay->call('POST', 'payments/payment', [
 ]);
 ```
 
-#### `GET+payments/payment/{id}`
+##### `GET+payments/payment/{id}`
 
 ```php
 $response = $gopay->call('GET', 'payments/payment/{id}');
 ```
 
-### Best practice
+#### Best practice
 
 You should inject `GopaySimple` into your service layer. And configure `$args` before creating payment for **target**.
 
 Example of [GopayService](https://github.com/Markette/GopaySimple/blob/master/examples/GopayService.php).
 
-## Testing
+### Testing
 
 1. Start build-in server at `tests/buildin/run.sh`
 2. Run tester at `tests/tester`
+
+
+## Development
+
+This package was maintain by these authors.
+
+<a href="https://github.com/f3l1x">
+  <img width="80" height="80" src="https://avatars2.githubusercontent.com/u/538058?v=3&s=80">
+</a>
+
+-----
+
+Consider to [support](https://contributte.org/partners.html) **contributte** development team.
+Also thank you for being used this package.
