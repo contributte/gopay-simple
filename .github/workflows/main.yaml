@@ -1,6 +1,14 @@
 name: "build"
 
-on: [push, pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - ".docs/**"
+  push:
+    branches:
+      - "*"
+  schedule:
+    - cron: "0 8 * * 1" # At 08:00 on Monday
 
 env:
   extensions: "json"
@@ -15,8 +23,8 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ["5.6", "7.0"]
-        operating-system: ["ubuntu-latest"]
+        php-version: [ "5.6", "7.0" ]
+        operating-system: [ "ubuntu-latest" ]
         composer-args: [ "" ]
         include:
           - php-version: "5.6"
